@@ -1,7 +1,6 @@
 import * as React from "react"
 import { Link, PageProps, graphql } from "gatsby"
 
-import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
@@ -26,9 +25,6 @@ const BlogPostTemplate: React.FC<PageProps> = ({
         </header>
         {children}
         <hr />
-        <footer>
-          <Bio />
-        </footer>
       </article>
     </Layout>
   )
