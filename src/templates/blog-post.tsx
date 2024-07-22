@@ -1,16 +1,16 @@
 import * as React from "react"
-import { Link, graphql } from "gatsby"
+import { Link, PageProps, graphql } from "gatsby"
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-const BlogPostTemplate = ({
+const BlogPostTemplate: React.FC<PageProps> = ({
   data,
   children,
   location,
 }) => {
-  const mdx = data.mdx;
+  const mdx = data!.mdx!;
 
   const siteTitle = mdx.frontmatter.title || `Title`
 

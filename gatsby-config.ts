@@ -21,6 +21,7 @@ module.exports = {
       twitter: `kylemathews`,
     },
   },
+  graphqlTypegen: true,
   plugins: [
     `gatsby-plugin-image`,
     {

@@ -8,14 +8,13 @@ import path from 'path'
 import { createFilePath } from 'gatsby-source-filesystem'
 
 // Define the template for blog post
-const blogPost = path.resolve(`./src/templates/blog-post.js`)
+const blogPost = path.resolve(`./src/templates/blog-post.tsx`)
 
 /**
  * @type {import('gatsby').GatsbyNode['createPages']}
  */
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
-
 
   const { data } = await graphql(`
     query AllMdx {

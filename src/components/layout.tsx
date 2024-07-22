@@ -1,9 +1,11 @@
 import * as React from "react"
-import { Link } from "gatsby"
+import { Link, PageProps } from "gatsby"
+import { useLocation } from '@reach/router';
 
-const Layout = ({ location, title, children }) => {
-  const rootPath = `${__PATH_PREFIX__}/`
-  const isRootPath = location.pathname === rootPath
+const Layout: React.FC<PageProps> = ({ title, children }) => {
+  const location = useLocation()
+  const isRootPath = location.pathname === '/' // Check if the current path is the root path
+
   let header
 
   if (isRootPath) {
