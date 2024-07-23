@@ -2896,6 +2896,21 @@ type GatsbyImageSharpFluid_withWebp_tracedSVGFragment = { readonly tracedSVG: st
 
 type GatsbyImageSharpFluidLimitPresentationSizeFragment = { readonly maxHeight: number, readonly maxWidth: number };
 
+type GetSiteMetadataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type GetSiteMetadataQuery = { readonly site: { readonly siteMetadata: { readonly title: string | null, readonly description: string | null, readonly social: { readonly twitter: string | null } | null } | null } | null };
+
+type IndexPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type IndexPageQuery = { readonly site: { readonly siteMetadata: { readonly title: string | null } | null } | null, readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly date: string | null, readonly title: string | null, readonly description: string | null, readonly slug: string | null } | null }> } };
+
+type Page404QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type Page404Query = { readonly site: { readonly siteMetadata: { readonly title: string | null } | null } | null };
+
 type PostTemplateQueryVariables = Exact<{
   id: Scalars['String'];
 }>;

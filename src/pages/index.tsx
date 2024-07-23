@@ -4,8 +4,8 @@ import { Link, PageProps, graphql } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-const BlogIndex: React.FC<PageProps> = ({ data, location }) => {
-  const siteTitle = data.site.siteMetadata?.title || `Title`
+const BlogIndex: React.FC<PageProps<Queries.IndexPageQuery>> = ({ data, location }) => {
+  const siteTitle = data!.site!.siteMetadata?.title || `Title`
   const posts = data.allMdx.nodes
 
   if (posts.length === 0) {
@@ -28,10 +28,10 @@ const BlogIndex: React.FC<PageProps> = ({ data, location }) => {
 
       <ol style={{ listStyle: `none` }}>
         {posts.map(post => {
-          const title = post.frontmatter.title || post.frontmatter.slug
+          const title = post!.frontmatter!.title || post!.frontmatter!.slug
 
           return (
-            <li key={post.frontmatter.slug}>
+            <li key={post!.frontmatter!.slug}>
               <article
                 className="post-list-item"
                 itemScope
@@ -39,11 +39,11 @@ const BlogIndex: React.FC<PageProps> = ({ data, location }) => {
               >
                 <header>
                   <h2>
-                    <Link to={post.frontmatter.slug} itemProp="url">
+                    <Link to={post!.frontmatter!.slug!} itemProp="url">
                       <span itemProp="headline">{title}</span>
                     </Link>
                   </h2>
-                  <small>{post.frontmatter.date}</small>
+                  <small>{post!.frontmatter!.date}</small>
                 </header>
               </article>
             </li>
@@ -64,21 +64,21 @@ export default BlogIndex
 // export const Head = () => <Seo title="All posts" />
 
 export const pageQuery = graphql`
-{
-  site {
-    siteMetadata {
-      title
-    }
-  }
-  allMdx {
-    nodes {
-      frontmatter {
-        date(formatString: "MMMM DD, YYYY")
+  query IndexPage {
+    site {
+      siteMetadata {
         title
-        description
-        slug
+      }
+    }
+    allMdx {
+      nodes {
+        frontmatter {
+          date(formatString: "MMMM DD, YYYY")
+          title
+          description
+          slug
+        }
       }
     }
   }
-}
 `
