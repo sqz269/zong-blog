@@ -1577,9 +1577,12 @@ type MdxFilterListInput = {
 };
 
 type MdxFrontmatter = {
+  readonly author: Maybe<Scalars['String']>;
   readonly date: Maybe<Scalars['Date']>;
   readonly description: Maybe<Scalars['String']>;
+  readonly series: Maybe<Scalars['String']>;
   readonly slug: Maybe<Scalars['String']>;
+  readonly tags: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
   readonly title: Maybe<Scalars['String']>;
 };
 
@@ -1592,23 +1595,32 @@ type MdxFrontmatter_dateArgs = {
 };
 
 type MdxFrontmatterFieldSelector = {
+  readonly author: InputMaybe<FieldSelectorEnum>;
   readonly date: InputMaybe<FieldSelectorEnum>;
   readonly description: InputMaybe<FieldSelectorEnum>;
+  readonly series: InputMaybe<FieldSelectorEnum>;
   readonly slug: InputMaybe<FieldSelectorEnum>;
+  readonly tags: InputMaybe<FieldSelectorEnum>;
   readonly title: InputMaybe<FieldSelectorEnum>;
 };
 
 type MdxFrontmatterFilterInput = {
+  readonly author: InputMaybe<StringQueryOperatorInput>;
   readonly date: InputMaybe<DateQueryOperatorInput>;
   readonly description: InputMaybe<StringQueryOperatorInput>;
+  readonly series: InputMaybe<StringQueryOperatorInput>;
   readonly slug: InputMaybe<StringQueryOperatorInput>;
+  readonly tags: InputMaybe<StringQueryOperatorInput>;
   readonly title: InputMaybe<StringQueryOperatorInput>;
 };
 
 type MdxFrontmatterSortInput = {
+  readonly author: InputMaybe<SortOrderEnum>;
   readonly date: InputMaybe<SortOrderEnum>;
   readonly description: InputMaybe<SortOrderEnum>;
+  readonly series: InputMaybe<SortOrderEnum>;
   readonly slug: InputMaybe<SortOrderEnum>;
+  readonly tags: InputMaybe<SortOrderEnum>;
   readonly title: InputMaybe<SortOrderEnum>;
 };
 
@@ -2916,7 +2928,7 @@ type PostTemplateQueryVariables = Exact<{
 }>;
 
 
-type PostTemplateQuery = { readonly mdx: { readonly body: string | null, readonly frontmatter: { readonly title: string | null } | null } | null };
+type PostTemplateQuery = { readonly mdx: { readonly frontmatter: { readonly title: string | null, readonly slug: string | null, readonly series: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly description: string | null } | null } | null };
 
 type AllMdxQueryVariables = Exact<{ [key: string]: never; }>;
 

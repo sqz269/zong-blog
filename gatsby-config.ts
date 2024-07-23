@@ -119,7 +119,8 @@ module.exports = {
                 })
               })
             },
-            query: `{
+            query: `
+            {
               allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
                 nodes {
                   excerpt
@@ -152,6 +153,19 @@ module.exports = {
         // theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: `gatsby-omni-font-loader`,
+      options: {
+        enableListener: true,
+        preconnect: [`https://fonts.googleapis.com`, `https://fonts.gstatic.com`],
+        web: [
+          {
+            name: `Fira Code`,
+            file: `https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap`,
+          },
+        ],
       },
     },
   ],

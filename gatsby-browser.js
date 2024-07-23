@@ -12,3 +12,4 @@ import "./src/styles/custom.css"
 // Highlighting for code blocks
 // import "prismjs/themes/prism.css"
 import "./src/styles/prismjs-theme-one-light.css"
+// import "./src/styles/prismjs-theme-one-dark.css"

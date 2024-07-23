@@ -2,32 +2,46 @@ import * as React from "react"
 import { Link, PageProps, graphql } from "gatsby"
 
 import Layout from "../components/layout"
-import Seo from "../components/seo"
 
-const BlogPostTemplate: React.FC<PageProps> = ({
+const BlogPostTemplate: React.FC<PageProps<Queries.PostTemplateQuery>> = ({
   data,
   children,
-  location,
 }) => {
   const mdx = data!.mdx!;
 
-  const siteTitle = mdx.frontmatter.title || `Title`
+  const title = mdx?.frontmatter?.title || `Title`
 
   return (
-    <Layout location={location} title={siteTitle}>
+    <div className="container mx-auto flex flex-col md:flex-row justify-center">
       <article
-        className="blog-post"
+        className="prose flex-auto relative"
         itemScope
         itemType="http://schema.org/Article"
       >
         <header>
-          <h1 itemProp="headline">{siteTitle}</h1>
+          <h1 itemProp="headline">{title}</h1>
         </header>
         {children}
         <hr />
       </article>
-    </Layout>
+
+      <div className="mt-4 md:mt-0 md:ml-4">
+        Blog Side Panel
+      </div>
+    </div>
   )
+}
+
+// Add SEO component
+import Seo from "../components/seo";
+export const Head = ({ data }: { data: Queries.PostTemplateQuery }) => {
+  const mdx = data!.mdx!;
+  const title = mdx!.frontmatter!.title || `Title`;
+  const description = mdx!.frontmatter!.description || ``;
+
+  return (
+    <Seo title={title} description={description} />
+  );
 }
 
 export default BlogPostTemplate
@@ -37,7 +51,10 @@ export const pageQuery = graphql`
     mdx(id: { eq: $id }) {
       frontmatter {
         title
+        slug
+        series
+        tags
+        description
       }
-      body
     }
   }`;
