@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Link, PageProps } from "gatsby"
 import { useLocation } from '@reach/router';
+import NavBar from "./navbar";
 
 interface LayoutProps {
   title: string;
@@ -28,9 +29,9 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
   }
 
   return (
-    <div className="global-wrapper" data-is-root-path={isRootPath}>
+    <div data-is-root-path={isRootPath}>
       <header className="global-header">{header}</header>
-      <main>{children}</main>
+      <article className="prose">{children}</article>
       <footer>
         © {new Date().getFullYear()}, Built with
         {` `}

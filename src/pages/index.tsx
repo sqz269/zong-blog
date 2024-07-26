@@ -21,36 +21,65 @@ const BlogIndex: React.FC<PageProps<Queries.IndexPageQuery>> = ({ data, location
   }
 
   return (
-    <Layout title={siteTitle}>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
+    <div className="container mx-auto">
+      <div className="grid grid-cols-12 gap-4">
+        <h1 className="col-start-2 text-4xl col-span-6">Zong's Blog</h1>
 
-      <ol style={{ listStyle: `none` }}>
-        {posts.map(post => {
-          const title = post!.frontmatter!.title || post!.frontmatter!.slug
+        <div className="col-start-2 col-span-6">
+          <ol style={{ listStyle: `none` }}>
+            {posts.map(post => {
+              const title = post!.frontmatter!.title || post!.frontmatter!.slug
+              return (
+                <div className="card bg-base-100 card-compact	">
+                  <div className="card-body">
+                    <div className="card-title">
+                      <h2>
+                        <Link to={post.frontmatter.slug || post.slug}>
+                          {title}
+                        </Link>
+                      </h2>
+                    </div>
+                    <small>{post.frontmatter.date}</small>
 
-          return (
-            <li key={post!.frontmatter!.slug}>
-              <article
-                className="post-list-item"
-                itemScope
-                itemType="http://schema.org/Article"
-              >
-                <header>
-                  <h2>
-                    <Link to={post!.frontmatter!.slug!} itemProp="url">
-                      <span itemProp="headline">{title}</span>
-                    </Link>
-                  </h2>
-                  <small>{post!.frontmatter!.date}</small>
-                </header>
-              </article>
-            </li>
-          )
-        })}
-      </ol>
-    </Layout>
+                    <p>{post.frontmatter.description}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </ol>
+        </div>
+
+        <div className="col-start-9 col-span-3">
+          <div className="card bg-base-100">
+            <div className="card-body">
+              <h2 className="card-title">Series</h2>
+              <div className="card-actions">
+                <div className="badge badge-lg badge-primary badge-outline"># Primary</div>
+                <div className="badge badge-lg badge-primary badge-outline"># Primary</div>
+                <div className="badge badge-lg badge-primary badge-outline"># Primary</div>
+                <div className="badge badge-lg badge-primary badge-outline"># Primary</div>
+                <div className="badge badge-lg badge-primary badge-outline"># Primary</div>
+                <div className="badge badge-lg badge-primary badge-outline"># Primary</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="card bg-base-100">
+            <div className="card-body">
+              <h2 className="card-title">Tags</h2>
+              <div className="card-actions">
+
+                <div className="badge badge-lg badge-primary badge-outline"># Primary</div>
+                <div className="badge badge-lg badge-primary badge-outline"># Primary</div>
+                <div className="badge badge-lg badge-primary badge-outline"># Primary</div>
+                <div className="badge badge-lg badge-primary badge-outline"># Primary</div>
+                <div className="badge badge-lg badge-primary badge-outline"># Primary</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -64,21 +93,21 @@ export default BlogIndex
 // export const Head = () => <Seo title="All posts" />
 
 export const pageQuery = graphql`
-  query IndexPage {
-    site {
-      siteMetadata {
-        title
-      }
+query IndexPage {
+  site {
+    siteMetadata {
+      title
     }
-    allMdx {
-      nodes {
-        frontmatter {
-          date(formatString: "MMMM DD, YYYY")
-          title
-          description
-          slug
-        }
+  }
+  allMdx(sort: {frontmatter: {date: DESC}}) {
+    nodes {
+      frontmatter {
+        date(formatString: "MMMM DD, YYYY")
+        title
+        description
+        slug
       }
     }
   }
-`
+}
+      `

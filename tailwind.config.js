@@ -6,7 +6,15 @@ module.exports = {
     `./src/templates/**/*.{js,jsx,ts,tsx}`,
   ],
   theme: {
-    extend: {},
+    extend: {
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            maxWidth: '55rem', // Change this value to your desired max-width
+          },
+        },
+      }),
+    },
   },
   plugins: [
     require('@tailwindcss/typography'),

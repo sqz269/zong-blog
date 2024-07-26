@@ -24,10 +24,6 @@ const BlogPostTemplate: React.FC<PageProps<Queries.PostTemplateQuery>> = ({
         {children}
         <hr />
       </article>
-
-      <div className="mt-4 md:mt-0 md:ml-4">
-        Blog Side Panel
-      </div>
     </div>
   )
 }
