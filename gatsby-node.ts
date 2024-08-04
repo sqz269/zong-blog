@@ -6,17 +6,27 @@
 
 import path from 'path'
 import { createFilePath } from 'gatsby-source-filesystem'
+import { Actions, GatsbyNode } from 'gatsby'
 
 // Define the template for blog post
 const blogPost = path.resolve(`./src/templates/blog-post.tsx`)
+const tagsTemplate = path.resolve(`./src/templates/tags.tsx`)
+const seriesTemplate = path.resolve(`./src/templates/series.tsx`)
 
-/**
- * @type {import('gatsby').GatsbyNode['createPages']}
- */
-exports.createPages = async ({ graphql, actions, reporter }) => {
+type GraphQLResponse<TData> = {
+  errors?: any;
+  data?: TData;
+};
+
+type GraphQLFunction = <TData, TVariables = any>(
+  query: string,
+  variables?: TVariables
+) => Promise<GraphQLResponse<TData>>;
+
+const createBlogPages: (args: { graphql: GraphQLFunction, actions: Actions }) => Promise<void> = async ({ graphql, actions }) => {
   const { createPage } = actions
 
-  const { data } = await graphql(`
+  const { data } = await graphql<Queries.AllMdxQuery>(`
     query AllMdx {
       allMdx {
         nodes {
@@ -32,36 +42,58 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     }
   `)
 
-  data.allMdx.nodes.forEach(node => {
+  data!.allMdx.nodes.forEach(node => {
     actions.createPage({
-      path: node.frontmatter.slug,
+      path: node!.frontmatter!.slug!,
       component: `${blogPost}?__contentFilePath=${node.internal.contentFilePath}`, // highlight-line
       context: {
         id: node.id,
       },
     })
   })
+}
 
-  // Create blog posts pages
-  // But only if there's at least one markdown file found at "content/blog" (defined in gatsby-config.js)
-  // `context` is available in the template as a prop and as a variable in GraphQL
+const createBlogTagsPages: (args: { graphql: GraphQLFunction, actions: Actions }) => Promise<void> = async ({ graphql, actions }) => {
+  const { createPage } = actions
 
-  // if (posts.length > 0) {
-  //   posts.forEach((post, index) => {
-  //     const previousPostId = index === 0 ? null : posts[index - 1].id
-  //     const nextPostId = index === posts.length - 1 ? null : posts[index + 1].id
+  const { data } = await graphql<Queries.MdxTagsQuery>(`
+  query MdxTags {
+    allMdx {
+      nodes {
+        frontmatter {
+          tags
+        }
+      }
+    }
+  }
+  `)
 
-  //     createPage({
-  //       path: post.fields.slug,
-  //       component: blogPost,
-  //       context: {
-  //         id: post.id,
-  //         previousPostId,
-  //         nextPostId,
-  //       },
-  //     })
-  //   })
-  // }
+  const distinctTags = new Set<string>()
+  data!.allMdx.nodes.forEach(node => {
+    if (node!.frontmatter!.tags === null) {
+      return
+    }
+
+    node!.frontmatter!.tags.forEach(tag => {
+      distinctTags.add(tag!)
+    })
+  })
+
+  distinctTags.forEach(tag => {
+    createPage({
+      path: `/tags/${tag}`,
+      component: tagsTemplate,
+      context: {
+        tag,
+      },
+    })
+  })
+}
+
+
+export const createPages: GatsbyNode['createPages'] = async ({ actions, graphql, reporter }) => {
+  await createBlogPages({ graphql, actions })
+  await createBlogTagsPages({ graphql, actions })
 }
 
 // /**

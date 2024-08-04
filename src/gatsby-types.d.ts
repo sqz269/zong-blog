@@ -2916,7 +2916,7 @@ type GetSiteMetadataQuery = { readonly site: { readonly siteMetadata: { readonly
 type IndexPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type IndexPageQuery = { readonly site: { readonly siteMetadata: { readonly title: string | null } | null } | null, readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly date: string | null, readonly title: string | null, readonly description: string | null, readonly slug: string | null } | null }> } };
+type IndexPageQuery = { readonly site: { readonly siteMetadata: { readonly title: string | null } | null } | null, readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly date: string | null, readonly title: string | null, readonly description: string | null, readonly slug: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly series: string | null } | null }> } };
 
 type Page404QueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2928,12 +2928,24 @@ type PostTemplateQueryVariables = Exact<{
 }>;
 
 
-type PostTemplateQuery = { readonly mdx: { readonly frontmatter: { readonly title: string | null, readonly slug: string | null, readonly series: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly description: string | null } | null } | null };
+type PostTemplateQuery = { readonly mdx: { readonly tableOfContents: Record<string, unknown> | null, readonly frontmatter: { readonly title: string | null, readonly slug: string | null, readonly series: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly description: string | null } | null } | null };
+
+type TagsTemplateQueryVariables = Exact<{
+  tag: Scalars['String'];
+}>;
+
+
+type TagsTemplateQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly frontmatter: { readonly date: string | null, readonly title: string | null, readonly description: string | null, readonly slug: string | null, readonly tags: ReadonlyArray<string | null> | null, readonly series: string | null } | null }> } };
 
 type AllMdxQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type AllMdxQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly id: string, readonly frontmatter: { readonly slug: string | null } | null, readonly internal: { readonly contentFilePath: string | null } }> } };
+
+type MdxTagsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type MdxTagsQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly tags: ReadonlyArray<string | null> | null } | null }> } };
 
 
 }

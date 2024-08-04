@@ -1,8 +1,6 @@
 import * as React from "react"
 import { Link, PageProps, graphql } from "gatsby"
 
-import Layout from "../components/layout"
-
 const BlogPostTemplate: React.FC<PageProps<Queries.PostTemplateQuery>> = ({
   data,
   children,
@@ -10,26 +8,48 @@ const BlogPostTemplate: React.FC<PageProps<Queries.PostTemplateQuery>> = ({
   const mdx = data!.mdx!;
 
   const title = mdx?.frontmatter?.title || `Title`
+  const description = mdx?.frontmatter?.description || ``
+  const series = mdx?.frontmatter?.series || ``
+  const tags = mdx?.frontmatter?.tags || []
+
+  const tableOfContents = mdx?.tableOfContents || { items: [] }
 
   return (
-    <div className="container mx-auto flex flex-col md:flex-row justify-center">
-      <article
-        className="prose flex-auto relative"
-        itemScope
-        itemType="http://schema.org/Article"
-      >
-        <header>
-          <h1 itemProp="headline">{title}</h1>
-        </header>
-        {children}
-        <hr />
-      </article>
-    </div>
+    <ThemeProvider>
+      <div className="container mx-auto flex-col flex-wrap justify-center">
+        <div className="flex-auto-flex flex-col justify-center">
+          <Link to="/">&lt; Back to Home</Link>
+          <h1 className="text-4xl font-bold">{title}</h1>
+        </div>
+
+        <div className="flex justify-center">
+          <article
+            className="prose grow"
+            itemScope
+            itemType="http://schema.org/Article"
+          >
+            {children}
+          </article>
+
+          <aside className="container sticky overflow-y-auto order-1 md:order-2 flex justify-center">
+            <h2>Table of Contents</h2>
+            <ul>
+              {tableOfContents.items.map((item, index) => (
+                <li key={item.url}>
+                  <Link to={item.url}>{item.title}</Link>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </ThemeProvider>
   )
 }
 
 // Add SEO component
 import Seo from "../components/seo";
+import ThemeProvider from "../components/theme-provider";
 export const Head = ({ data }: { data: Queries.PostTemplateQuery }) => {
   const mdx = data!.mdx!;
   const title = mdx!.frontmatter!.title || `Title`;
@@ -52,5 +72,6 @@ export const pageQuery = graphql`
         tags
         description
       }
+      tableOfContents
     }
   }`;
